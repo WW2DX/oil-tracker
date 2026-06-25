@@ -1,0 +1,35 @@
+{
+  "unit": "gallon",
+  "currency": "USD",
+  "source": "https://justoil.com/",
+  "history": [
+    {
+      "key": "2026-06-25:AM",
+      "d": "2026-06-25",
+      "slot": "AM",
+      "ts": "2026-06-25T10:41-04:00",
+      "p": 4.0
+    }
+  ],
+  "price": 4.0,
+  "prev_price": 4.0,
+  "change": 0.0,
+  "change_pct": 0.0,
+  "direction": "flat",
+  "change_str": "0.00",
+  "updated_at": "Jun 25, 10:41 AM EDT",
+  "updated_iso": "2026-06-25T10:41-04:00",
+  "low": 4.0,
+  "high": 4.0,
+  "count": 1,
+  "chart": {
+    "w": 760,
+    "h": 230,
+    "points": "380.0,115.0",
+    "area_points": "380.0,216 380.0,115.0 380.0,216",
+    "last_x": 380.0,
+    "last_y": 115.0,
+    "min": 4.0,
+    "max": 4.0
+  }
+}

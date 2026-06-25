@@ -1,0 +1,46 @@
+name: Scrape oil price
+
+# GitHub cron is UTC and has no DST awareness, so we fire at the UTC times that
+# correspond to 4am / 10pm Eastern in BOTH EST (UTC-5) and EDT (UTC-4). scrape.py
+# then gates on the actual America/New_York hour, so exactly one record lands per
+# slot regardless of daylight saving.
+on:
+  schedule:
+    - cron: "0 8,9 * * *"   # 4am ET  (08:00 UTC EDT / 09:00 UTC EST)
+    - cron: "0 2,3 * * *"   # 10pm ET (02:00 UTC EDT / 03:00 UTC EST)
+  workflow_dispatch:         # manual "Run workflow" button
+    inputs:
+      force:
+        description: "Record now regardless of the time window"
+        type: boolean
+        default: false
+
+permissions:
+  contents: write            # allow the job to commit history.json back
+
+concurrency: oil-scrape       # never run two scrapes at once
+
+jobs:
+  scrape:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Scrape and update history
+        run: python3 scrape.py ${{ (github.event_name == 'workflow_dispatch' && inputs.force) && '--force' || '--scheduled' }}
+
+      - name: Commit updated history
+        run: |
+          if git diff --quiet -- history.json; then
+            echo "No change to history.json — nothing to commit."
+            exit 0
+          fi
+          git config user.name  "oil-tracker-bot"
+          git config user.email "actions@github.com"
+          git add history.json
+          git commit -m "Update oil price ($(date -u +%Y-%m-%dT%H:%MZ))"
+          git push

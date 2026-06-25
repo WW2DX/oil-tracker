@@ -1,0 +1,45 @@
+{% comment %}
+  TRMNL "full" viewport. Polls history.json, so all merge variables (price,
+  change_str, chart.*, history) are available at the root. The chart geometry is
+  precomputed by scrape.py, so this template just draws an SVG polyline — no JS,
+  which keeps it crisp on e-ink.
+{% endcomment %}
+
+<div class="layout layout--col gap--medium">
+
+  <div class="columns">
+    <div class="column">
+      <span class="title">Heating Oil — Just Oil (NY)</span>
+      <div class="flex gap--small items--baseline">
+        <span class="value value--xxlarge">${{ price }}</span>
+        <span class="label label--large">/ gallon</span>
+      </div>
+      <span class="label">
+        {% if direction == "up" %}▲{% elsif direction == "down" %}▼{% else %}–{% endif %}
+        {{ change_str }} ({{ change_pct }}%) vs previous check
+      </span>
+    </div>
+  </div>
+
+  <svg viewBox="0 0 {{ chart.w }} {{ chart.h }}" preserveAspectRatio="none"
+       width="100%" height="230" role="img" aria-label="Oil price history">
+    {% if count > 1 %}
+      <polyline points="{{ chart.area_points }}" fill="black" fill-opacity="0.08" stroke="none" />
+    {% endif %}
+    <polyline points="{{ chart.points }}" fill="none" stroke="black" stroke-width="3"
+              stroke-linejoin="round" stroke-linecap="round" />
+    <circle cx="{{ chart.last_x }}" cy="{{ chart.last_y }}" r="5" fill="black" />
+  </svg>
+
+  <div class="columns">
+    <div class="column"><span class="label">Low ${{ chart.min }}</span></div>
+    <div class="column"><span class="label text--center">{{ count }} readings</span></div>
+    <div class="column"><span class="label text--right">High ${{ chart.max }}</span></div>
+  </div>
+
+</div>
+
+<div class="title_bar">
+  <span class="title">Oil Price Tracker</span>
+  <span class="instance">Updated {{ updated_at }}</span>
+</div>

@@ -1,0 +1,24 @@
+{% comment %} Compact layout for the half-horizontal viewport. {% endcomment %}
+
+<div class="layout layout--col gap--small">
+  <span class="title">Oil — Just Oil (NY)</span>
+
+  <div class="flex gap--small items--baseline">
+    <span class="value value--xlarge">${{ price }}</span>
+    <span class="label">/gal
+      {% if direction == "up" %}▲{% elsif direction == "down" %}▼{% else %}–{% endif %}{{ change_str }}
+    </span>
+  </div>
+
+  <svg viewBox="0 0 {{ chart.w }} {{ chart.h }}" preserveAspectRatio="none"
+       width="100%" height="120" role="img" aria-label="Oil price history">
+    <polyline points="{{ chart.points }}" fill="none" stroke="black" stroke-width="3"
+              stroke-linejoin="round" stroke-linecap="round" />
+    <circle cx="{{ chart.last_x }}" cy="{{ chart.last_y }}" r="5" fill="black" />
+  </svg>
+</div>
+
+<div class="title_bar">
+  <span class="title">Oil Price</span>
+  <span class="instance">{{ updated_at }}</span>
+</div>
