@@ -1,45 +1,51 @@
 {% comment %}
-  TRMNL "full" viewport. Polls history.json, so all merge variables (price,
-  change_str, chart.*, history) are available at the root. The chart geometry is
-  precomputed by scrape.py, so this template just draws an SVG polyline — no JS,
-  which keeps it crisp on e-ink.
+  TRMNL "full" viewport (800x480). Polls history.json, so all merge variables
+  (price_str, change_str, chart.*, etc.) are available at the root. Prices are
+  pre-formatted to 2 decimals in scrape.py so they always read "$4.00" — Liquid
+  would otherwise render the float 4.0 as "4". The chart geometry is precomputed,
+  so this template just draws an SVG polyline (no JS = crisp on e-ink).
 {% endcomment %}
 
-<div class="layout layout--col gap--medium">
+<div class="screen">
+  <div class="view view--full">
 
-  <div class="columns">
-    <div class="column">
+    <div class="layout layout--col gap--small">
+
       <span class="title">Heating Oil — Just Oil (NY)</span>
-      <div class="flex gap--small items--baseline">
-        <span class="value value--xxlarge">${{ price }}</span>
-        <span class="label label--large">/ gallon</span>
+
+      <div class="flex gap--medium items--baseline">
+        <span class="value value--xlarge">${{ price_str }}</span>
+        <span class="label label--gray-2">/ gallon</span>
+        <span class="label">
+          {% if direction == "up" %}▲ +{{ change_abs_str }}
+          {% elsif direction == "down" %}▼ −{{ change_abs_str }}
+          {% else %}— unchanged{% endif %}
+          {% if direction != "flat" %}({{ change_pct }}%){% endif %}
+        </span>
       </div>
-      <span class="label">
-        {% if direction == "up" %}▲{% elsif direction == "down" %}▼{% else %}–{% endif %}
-        {{ change_str }} ({{ change_pct }}%) vs previous check
-      </span>
+
+      <svg viewBox="0 0 {{ chart.w }} {{ chart.h }}" preserveAspectRatio="none"
+           width="100%" height="230" role="img" aria-label="Oil price history">
+        {% if count > 1 %}
+          <polyline points="{{ chart.area_points }}" fill="black" fill-opacity="0.08" stroke="none" />
+        {% endif %}
+        <polyline points="{{ chart.points }}" fill="none" stroke="black" stroke-width="3"
+                  stroke-linejoin="round" stroke-linecap="round" />
+        <circle cx="{{ chart.last_x }}" cy="{{ chart.last_y }}" r="5" fill="black" />
+      </svg>
+
+      <div class="grid grid--cols-3">
+        <span class="label">Low ${{ chart.min_str }}</span>
+        <span class="label text--center">{{ count }} readings</span>
+        <span class="label text--right">High ${{ chart.max_str }}</span>
+      </div>
+
     </div>
+
+    <div class="title_bar">
+      <span class="title">Oil Price Tracker</span>
+      <span class="instance">Updated {{ updated_at }}</span>
+    </div>
+
   </div>
-
-  <svg viewBox="0 0 {{ chart.w }} {{ chart.h }}" preserveAspectRatio="none"
-       width="100%" height="230" role="img" aria-label="Oil price history">
-    {% if count > 1 %}
-      <polyline points="{{ chart.area_points }}" fill="black" fill-opacity="0.08" stroke="none" />
-    {% endif %}
-    <polyline points="{{ chart.points }}" fill="none" stroke="black" stroke-width="3"
-              stroke-linejoin="round" stroke-linecap="round" />
-    <circle cx="{{ chart.last_x }}" cy="{{ chart.last_y }}" r="5" fill="black" />
-  </svg>
-
-  <div class="columns">
-    <div class="column"><span class="label">Low ${{ chart.min }}</span></div>
-    <div class="column"><span class="label text--center">{{ count }} readings</span></div>
-    <div class="column"><span class="label text--right">High ${{ chart.max }}</span></div>
-  </div>
-
-</div>
-
-<div class="title_bar">
-  <span class="title">Oil Price Tracker</span>
-  <span class="instance">Updated {{ updated_at }}</span>
 </div>

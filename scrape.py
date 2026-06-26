@@ -87,6 +87,8 @@ def build_chart(points: list) -> dict:
         "last_y": last_y,
         "min": round(lo, 2),
         "max": round(hi, 2),
+        "min_str": f"{lo:.2f}",
+        "max_str": f"{hi:.2f}",
     }
 
 
@@ -127,10 +129,15 @@ def main():
     prev = hist[-2]["p"] if len(hist) >= 2 else price
     change = round(price - prev, 2)
 
+    low = min(p["p"] for p in hist)
+    high = max(p["p"] for p in hist)
+
     data.update(
         price=price,
+        price_str=f"{price:.2f}",  # always 2 decimals for display ($4.00, not $4.0)
         prev_price=prev,
         change=change,
+        change_abs_str=f"{abs(change):.2f}",
         change_pct=round((change / prev * 100) if prev else 0, 1),
         direction="up" if change > 0 else "down" if change < 0 else "flat",
         change_str=("+" if change > 0 else "") + f"{change:.2f}",
@@ -139,8 +146,10 @@ def main():
         source=URL,
         updated_at=now.strftime("%b %-d, %-I:%M %p %Z"),
         updated_iso=now.isoformat(timespec="minutes"),
-        low=min(p["p"] for p in hist),
-        high=max(p["p"] for p in hist),
+        low=low,
+        high=high,
+        low_str=f"{low:.2f}",
+        high_str=f"{high:.2f}",
         count=len(hist),
         chart=build_chart(hist),
         history=hist,
