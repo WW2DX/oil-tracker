@@ -14,7 +14,7 @@
       "key": "2026-06-25:PM",
       "d": "2026-06-25",
       "slot": "PM",
-      "ts": "2026-06-25T17:46-04:00",
+      "ts": "2026-06-25T23:07-04:00",
       "p": 4.0
     }
   ],
@@ -24,8 +24,8 @@
   "change_pct": 0.0,
   "direction": "flat",
   "change_str": "0.00",
-  "updated_at": "Jun 25, 5:46 PM EDT",
-  "updated_iso": "2026-06-25T17:46-04:00",
+  "updated_at": "Jun 25, 11:07 PM EDT",
+  "updated_iso": "2026-06-25T23:07-04:00",
   "low": 4.0,
   "high": 4.0,
   "count": 2,
