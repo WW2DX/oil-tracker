@@ -343,7 +343,7 @@
       "key": "2026-07-19:AM",
       "d": "2026-07-19",
       "slot": "AM",
-      "ts": "2026-07-19T04:52-04:00",
+      "ts": "2026-07-19T05:38-04:00",
       "p": 4.6
     }
   ],
@@ -353,8 +353,8 @@
   "change_pct": 0.0,
   "direction": "flat",
   "change_str": "0.00",
-  "updated_at": "Jul 19, 4:52 AM EDT",
-  "updated_iso": "2026-07-19T04:52-04:00",
+  "updated_at": "Jul 19, 5:38 AM EDT",
+  "updated_iso": "2026-07-19T05:38-04:00",
   "low": 4.0,
   "high": 4.6,
   "count": 49,
