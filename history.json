@@ -700,7 +700,7 @@
       "key": "2026-08-15:AM",
       "d": "2026-08-15",
       "slot": "AM",
-      "ts": "2026-08-15T04:34-04:00",
+      "ts": "2026-08-15T05:30-04:00",
       "p": 4.7
     }
   ],
@@ -710,8 +710,8 @@
   "change_pct": 0.0,
   "direction": "flat",
   "change_str": "0.00",
-  "updated_at": "Aug 15, 4:34 AM EDT",
-  "updated_iso": "2026-08-15T04:34-04:00",
+  "updated_at": "Aug 15, 5:30 AM EDT",
+  "updated_iso": "2026-08-15T05:30-04:00",
   "low": 4.0,
   "high": 4.8,
   "count": 100,
