@@ -819,7 +819,7 @@
       "key": "2026-08-23:PM",
       "d": "2026-08-23",
       "slot": "PM",
-      "ts": "2026-08-23T22:57-04:00",
+      "ts": "2026-08-23T23:55-04:00",
       "p": 5.05
     }
   ],
@@ -829,8 +829,8 @@
   "change_pct": 0.0,
   "direction": "flat",
   "change_str": "0.00",
-  "updated_at": "Aug 23, 10:57 PM EDT",
-  "updated_iso": "2026-08-23T22:57-04:00",
+  "updated_at": "Aug 23, 11:55 PM EDT",
+  "updated_iso": "2026-08-23T23:55-04:00",
   "low": 4.0,
   "high": 5.05,
   "count": 117,
